@@ -1,0 +1,15 @@
+<!-- index.html - Página principal com lista de tarefas -->
+{% extends 'base.html' %}
+{% block title %}Minhas Tarefas{% endblock %}
+{% block content %}
+    <h2>Minhas Tarefas</h2>
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.title }}
+                <a href="#">✏️</a>
+                <a href="#">🗑️</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="#">➕ Adicionar Tarefa</a>
+{% endblock %}
