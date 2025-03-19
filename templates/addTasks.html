@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Criar Tarefa{% endblock %}
+
+{% block content %}
+    <h2>Adicionar Nova Tarefa</h2>
+    <form action="addTasks.html" method="POST">
+        <label for="task_title">Título da Tarefa:</label>
+        <input type="text" id="task_title" name="title" required>
+        <button type="submit">Adicionar Tarefa</button>
+    </form>
+    <a href="{{ url_for('routes.home')}}">Voltar para a Lista de Tarefas</a>
+{% endblock %}

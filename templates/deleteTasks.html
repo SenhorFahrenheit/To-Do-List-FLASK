@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
+
 {% block title %}Minhas Tarefas{% endblock %}
+
 {% block content %}
     <h2>Minhas Tarefas</h2>
     <ul>
         {% for task in tasks %}
             <li>{{ task.title }}
                 <a href="{{ url_for('routes.update_task', task_id=task.id) }}">✏️</a>
-                <a href="{{ url_for('routes.delete_task', task_id=task.id) }}">🗑️</a>
+                <a href="{{ url_for('routes.delete_task', task_id=task.id) }}" onclick="return confirm('Você tem certeza que deseja excluir esta tarefa?');">🗑️</a>
             </li>
         {% endfor %}
     </ul>

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Tarefa{% endblock %}
+
+{% block content %}
+    <h2>Editar Tarefa</h2>
+    <form action="updateTasks.html" method="POST">
+        <label for="task_title">Título da Tarefa:</label>
+        <input type="text" id="task_title" name="title" value="{{ task.title }}" required>
+        <button type="submit">Salvar Alterações</button>
+    </form>
+    <a href="{{ url_for('routes.home')}}">Voltar para a Lista de Tarefas</a>
+{% endblock %}

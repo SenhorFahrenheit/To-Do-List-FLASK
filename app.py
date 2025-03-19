@@ -1,11 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask
+from routes.routes import routes  # Importando as rotas
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
-def home():
-    tasks = [{"id": 1, "title": "Estudar Flask"}, {"id": 2, "title": "Criar projeto To-Do"}]
-    return render_template('index.html', tasks=tasks)
+# Registrando o Blueprint das rotas
+app.register_blueprint(routes)
 
 if __name__ == '__main__':
     app.run(debug=True)
