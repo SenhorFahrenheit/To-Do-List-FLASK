@@ -19,6 +19,11 @@ def listar_tarefas():
     with app.app_context():
         try:
             tarefas = Tarefa.query.all()
+                
+            if len(tarefas) <= 0:
+                print("Não há tarefas no momento")
+                return
+
             for tarefa in tarefas:
                 print(f'{tarefa.id} - {tarefa.titulo} - {tarefa.descricao} - Concluída: {tarefa.concluida}')
         except SQLAlchemyError as e:
@@ -28,7 +33,7 @@ def listar_tarefas():
 def atualizar_tarefa(id, titulo=None, descricao=None, concluida=None):
     with app.app_context():
         try:
-            tarefa = Tarefa.query.get(id)
+            tarefa = db.session.get(Tarefa, id)
             if tarefa:
                 if titulo:
                     tarefa.titulo = titulo
@@ -48,7 +53,7 @@ def atualizar_tarefa(id, titulo=None, descricao=None, concluida=None):
 def excluir_tarefa(id):
     with app.app_context():
         try:
-            tarefa = Tarefa.query.get(id)
+            tarefa = db.session.get(Tarefa, id)
             if tarefa:
                 db.session.delete(tarefa)
                 db.session.commit()
@@ -59,21 +64,20 @@ def excluir_tarefa(id):
             db.session.rollback()
             print(f'Ocorreu um erro ao excluir a tarefa: {e}')
 
-# Exemplo de uso:
+# PARA TESTES:
 
 # 1. Adicionando uma nova tarefa
-adicionar_tarefa('Testando nosso app', 'Esta é a primeira tarefa adicionada', False)
-adicionar_tarefa('Testando nosso app', 'Esta é a segunda tarefa adicionada e será excluída', False)
-adicionar_tarefa('Testando nosso app', 'Esta é a terceira tarefa adicionada e será modificada', False)
+# adicionar_tarefa('Tarefa master', 'Esta é um teste', False)
 
 # 2. Listando todas as tarefas
-listar_tarefas()
+# listar_tarefas()
 
 # 3. Atualizando uma tarefa (ID da tarefa precisa ser válido)
-atualizar_tarefa(3, titulo='Levar lixo para o reciclável', concluida=True)
+# atualizar_tarefa(2, descricao='tarefa master foi atualizada', concluida=True)
+
+# 4. Excluindo uma tarefa (ID da tarefa precisa ser válido)
+# excluir_tarefa(2)
 
 listar_tarefas()
 
 
-# 4. Excluindo uma tarefa (ID da tarefa precisa ser válido)
-excluir_tarefa(2)
