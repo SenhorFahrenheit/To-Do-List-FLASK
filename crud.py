@@ -59,4 +59,21 @@ def excluir_tarefa(id):
             db.session.rollback()
             print(f'Ocorreu um erro ao excluir a tarefa: {e}')
 
+# Exemplo de uso:
 
+# 1. Adicionando uma nova tarefa
+adicionar_tarefa('Testando nosso app', 'Esta é a primeira tarefa adicionada', False)
+adicionar_tarefa('Testando nosso app', 'Esta é a segunda tarefa adicionada e será excluída', False)
+adicionar_tarefa('Testando nosso app', 'Esta é a terceira tarefa adicionada e será modificada', False)
+
+# 2. Listando todas as tarefas
+listar_tarefas()
+
+# 3. Atualizando uma tarefa (ID da tarefa precisa ser válido)
+atualizar_tarefa(3, titulo='Levar lixo para o reciclável', concluida=True)
+
+listar_tarefas()
+
+
+# 4. Excluindo uma tarefa (ID da tarefa precisa ser válido)
+excluir_tarefa(2)

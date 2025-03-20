@@ -1,13 +1,14 @@
 from flask import Blueprint, render_template, request
-
+#  PRECISO IMPORTAR TAREFA! SEM CRIAR ERRO DE DEPENDENCIA CIRCULAR
 # Criando um "Blueprint" para agrupar as rotas
 routes = Blueprint('routes', __name__)
 
-tasks = [{"id": 1, "title": "Comprar pão"}, {"id": 2, "title": "Estudar Python"}]
+# tasks = [{"id": 1, "title": "Comprar pão"}, {"id": 2, "title": "Estudar Python"}]
 
 @routes.route('/', methods=["GET"])
 def home():
-    return render_template('index.html', tasks=tasks)
+    # tasks = Tarefa.query.all()
+    return render_template('index.html')
 
 @routes.route('/add-task', methods=['GET', 'POST'])
 def add_task():
