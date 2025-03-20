@@ -4,10 +4,17 @@
 
 {% block content %}
     <h2>Editar Tarefa</h2>
-    <form action="updateTasks.html" method="POST">
+    <form action="{{ url_for('routes.update_task', task_id=task.id) }}" method="POST">
         <label for="task_title">Título da Tarefa:</label>
-        <input type="text" id="task_title" name="title" value="{{ task.title }}" required>
+        <input type="text" id="task_title" name="titulo" value="{{ task.titulo }}" required>
+
+        <label for="task_desc">Descrição:</label>
+        <textarea id="task_desc" name="descricao">{{ task.descricao }}</textarea>
+
+        <label for="task_done">Concluída:</label>
+        <input type="checkbox" id="task_done" name="concluida" {% if task.concluida %}checked{% endif %}>
+
         <button type="submit">Salvar Alterações</button>
     </form>
-    <a href="{{ url_for('routes.home')}}">Voltar para a Lista de Tarefas</a>
+    <a href="{{ url_for('routes.home') }}">Voltar para a Lista de Tarefas</a>
 {% endblock %}

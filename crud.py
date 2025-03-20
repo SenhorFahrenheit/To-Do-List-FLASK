@@ -2,6 +2,21 @@ from model import db, Tarefa
 from app import app  # Importamos o app do Flask para acessar o contexto
 from sqlalchemy.exc import SQLAlchemyError
 from flask import jsonify
+
+# captura a tarefa toda pelo ID
+def get_task_by_id(task_id):
+    tarefa = Tarefa.query.get(task_id)
+
+    if not tarefa:
+        return None  # Retorna None se a tarefa não for encontrada
+
+    return {
+        "id": tarefa.id,
+        "titulo": tarefa.titulo,
+        "descricao": tarefa.descricao,
+        "concluida": tarefa.concluida
+    }
+
 # Criar uma tarefa (C - Create)
 def adicionar_tarefa(titulo, descricao, concluida=False):
     with app.app_context():
@@ -49,12 +64,12 @@ def atualizar_tarefa(id, titulo=None, descricao=None, concluida=None):
                 if concluida is not None:
                     tarefa.concluida = concluida
                 db.session.commit()
-                print(f'Tarefa {id} atualizada com sucesso!')
+                return 'Tarefa {id} atualizada com sucesso!'
             else:
-                print(f'Tarefa com ID {id} não encontrada.')
+                return 'Tarefa com ID {id} não encontrada.'
         except SQLAlchemyError as e:
             db.session.rollback()
-            print(f'Ocorreu um erro ao atualizar a tarefa: {e}')
+            return f'Ocorreu um erro ao atualizar a tarefa: {e}'
 
 # Excluir uma tarefa (D - Delete)
 def excluir_tarefa(id):
