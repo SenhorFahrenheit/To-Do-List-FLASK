@@ -38,4 +38,6 @@ def update_task(task_id):
 
 @routes.route('/delete-task/<int:task_id>', methods=['GET', 'POST'])
 def delete_task(task_id):
-    return render_template("deleteTasks.html", task_id=task_id)
+    from crud import excluir_tarefa
+    excluir_tarefa(task_id)
+    return redirect(url_for('routes.home'))
