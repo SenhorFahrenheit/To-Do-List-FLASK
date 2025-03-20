@@ -14,7 +14,18 @@ def home():
 
 @routes.route('/add-task', methods=['GET', 'POST'])
 def add_task():
+    from crud import adicionar_tarefa
+
+    if request.method == "POST":
+        titulo = request.form['titulo']
+        descricao = request.form['descricao']
+
+        adicionar_tarefa(titulo=titulo, descricao=descricao)
+
+        return redirect(url_for('routes.home'))  
+
     return render_template("addTasks.html")
+
 
 @routes.route('/update-task/<int:task_id>', methods=['GET', 'POST'])
 def update_task(task_id):
