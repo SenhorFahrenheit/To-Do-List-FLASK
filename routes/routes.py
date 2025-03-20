@@ -1,14 +1,15 @@
 from flask import Blueprint, render_template, request
-#  PRECISO IMPORTAR TAREFA! SEM CRIAR ERRO DE DEPENDENCIA CIRCULAR
+import json
 # Criando um "Blueprint" para agrupar as rotas
 routes = Blueprint('routes', __name__)
 
-# tasks = [{"id": 1, "title": "Comprar pão"}, {"id": 2, "title": "Estudar Python"}]
 
 @routes.route('/', methods=["GET"])
 def home():
-    # tasks = Tarefa.query.all()
-    return render_template('index.html')
+    from crud import listar_tarefas
+    response = listar_tarefas()  # Retorna um JSONResponse do Flask
+    tasks = json.loads(response.get_data(as_text=True))  # Converte JSON para lista de dicionários
+    return render_template('index.html', tasks=tasks)
 
 @routes.route('/add-task', methods=['GET', 'POST'])
 def add_task():

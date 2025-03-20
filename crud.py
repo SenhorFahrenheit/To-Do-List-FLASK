@@ -1,7 +1,7 @@
 from model import db, Tarefa
 from app import app  # Importamos o app do Flask para acessar o contexto
 from sqlalchemy.exc import SQLAlchemyError
-
+from flask import jsonify
 # Criar uma tarefa (C - Create)
 def adicionar_tarefa(titulo, descricao, concluida=False):
     with app.app_context():
@@ -19,13 +19,20 @@ def listar_tarefas():
     with app.app_context():
         try:
             tarefas = Tarefa.query.all()
-                
             if len(tarefas) <= 0:
-                print("Não há tarefas no momento")
-                return
+                return False
+            # Cria uma lista de dicionários com as propriedades das tarefas
+            tarefas_data = [
+                {
+                    'id': tarefa.id,
+                    'titulo': tarefa.titulo,
+                    'descricao': tarefa.descricao,
+                    'concluida': tarefa.concluida
+                } for tarefa in tarefas
+            ]
 
-            for tarefa in tarefas:
-                print(f'{tarefa.id} - {tarefa.titulo} - {tarefa.descricao} - Concluída: {tarefa.concluida}')
+            return jsonify(tarefas_data)  # Retorna a lista de tarefas como JSON
+            
         except SQLAlchemyError as e:
             print(f'Ocorreu um erro ao listar as tarefas: {e}')
 
@@ -70,14 +77,13 @@ def excluir_tarefa(id):
 # adicionar_tarefa('Tarefa master', 'Esta é um teste', False)
 
 # 2. Listando todas as tarefas
-# listar_tarefas()
+# print(listar_tarefas())
 
 # 3. Atualizando uma tarefa (ID da tarefa precisa ser válido)
-# atualizar_tarefa(2, descricao='tarefa master foi atualizada', concluida=True)
+# atualizar_tarefa(5, concluida=True)
 
 # 4. Excluindo uma tarefa (ID da tarefa precisa ser válido)
 # excluir_tarefa(2)
 
-listar_tarefas()
 
 
